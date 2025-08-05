@@ -179,7 +179,7 @@ const WalletComponent: FC<WalletComponentProps> = ({ address, chain }) => {
         </View>
 
         {tokenBalances.map(tokenBalance => (
-          <View style={[{ marginTop: 10 }]}>
+          <View key={tokenBalance.symbol} style={[{ marginTop: 10 }]}>
             <Text style={styles.formLabel}>{tokenBalance.symbol} Balance</Text>
             <Text>
               {tokenBalance !== undefined ? tokenBalance.balance : '...'}

@@ -15,6 +15,8 @@ Portal SDK also covers the following backup methods which were not covered in th
 2. Backup with GDrive
 3. Backup with Passkey
 
+![Demo](./readme.png)
+
 ## How to Run This Example App
 
 1. Clone the repo to your local system

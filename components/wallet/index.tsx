@@ -20,6 +20,7 @@ import {
 import PortalButton from '../shared/button';
 import BackupWallet from './backup-wallet';
 import CopyableText from '../shared/copyable-text';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   FUND_AMOUNT,
   MONAD_TESTNET_CHAIN_ID,
@@ -146,7 +147,7 @@ const WalletComponent: FC<WalletComponentProps> = ({ address, chain }) => {
             <Text style={styles.formLabel}>
               {nativeBalance?.symbol} Balance
             </Text>
-            <Text>
+            <Text style={{ color: '#FFF' }}>
               {nativeBalance !== undefined ? nativeBalance.balance : '...'}
             </Text>
           </View>
@@ -168,7 +169,7 @@ const WalletComponent: FC<WalletComponentProps> = ({ address, chain }) => {
                 title={isFunding ? 'Funding...' : 'Fund Wallet'}
                 onPress={fundWallet}
                 style={{
-                  backgroundColor: isFunding ? 'gray' : '#4BB543',
+                  backgroundColor: isFunding ? 'gray' : '#007AFF',
                   maxWidth: 120,
                   paddingVertical: 10,
                 }}
@@ -181,7 +182,7 @@ const WalletComponent: FC<WalletComponentProps> = ({ address, chain }) => {
         {tokenBalances.map(tokenBalance => (
           <View key={tokenBalance.symbol} style={[{ marginTop: 10 }]}>
             <Text style={styles.formLabel}>{tokenBalance.symbol} Balance</Text>
-            <Text>
+            <Text style={{ color: '#FFF' }}>
               {tokenBalance !== undefined ? tokenBalance.balance : '...'}
             </Text>
           </View>
@@ -244,7 +245,10 @@ const WalletComponent: FC<WalletComponentProps> = ({ address, chain }) => {
           <PortalButton
             title={`Send ${selectedToken}`}
             onPress={sendToken}
-            style={{ marginTop: 10 }}
+            style={{
+              marginTop: 20,
+              backgroundColor: '#007AFF',
+            }}
           />
         </View>
 
@@ -269,7 +273,7 @@ const WalletComponent: FC<WalletComponentProps> = ({ address, chain }) => {
           </View>
         )}
 
-        <BackupWallet />
+        {/* <BackupWallet /> */}
       </ScrollView>
     </KeyboardAvoidingView>
   );

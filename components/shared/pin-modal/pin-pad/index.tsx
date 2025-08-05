@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import { styles } from '../../../../style/stylesheet';
-import PortalButton from '../../button';
 
 interface PinPadProps {
   label: string;
@@ -18,17 +17,26 @@ interface PinPadProps {
 
 const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'del'];
 const { width } = Dimensions.get('window');
-const keySize = width / 5; // Make sure to use the correct width
-const keyTextSize = keySize / 2.5;
+const keySize = Math.min(width / 4.5, 80); // Smaller, more reasonable size
+const keyTextSize = 24;
 
 const PinPad: FC<PinPadProps> = ({ label, onSubmit, pinLength, setPin }) => {
   const [code, setCode] = useState<string[]>([]);
 
-  const handlePress = (item: string) => {
+  const handlePress = async (item: string) => {
     if (item === 'del') {
       setCode(prev => prev.slice(0, -1));
     } else if (item !== '' && code.length < pinLength) {
-      setCode(prev => [...prev, item]);
+      const newCode = [...code, item];
+      setCode(newCode);
+
+      // If this completes the PIN (reaches pinLength), auto-submit
+      if (newCode.length === pinLength) {
+        // Small delay to show the final dot filled before submitting
+        setTimeout(async () => {
+          await onSubmit();
+        }, 150);
+      }
     }
   };
 
@@ -40,76 +48,105 @@ const PinPad: FC<PinPadProps> = ({ label, onSubmit, pinLength, setPin }) => {
   }, [code]);
 
   return (
-    <View style={styles.container}>
-      <View
+    <View style={[styles.container, { alignItems: 'center' }]}>
+      {/* Title */}
+      <Text
         style={{
-          alignItems: 'flex-end',
-          flexDirection: 'row',
-          gap: 40,
-          height: keySize * 2,
-          justifyContent: 'center',
-          marginBottom: 60,
+          fontSize: 28,
+          fontWeight: 'bold',
+          color: '#FFF',
+          marginBottom: 20,
+          textAlign: 'center',
         }}
       >
-        {typeof code !== 'undefined'
-          ? code.map((_, index) => (
-              <View
-                key={index}
-                style={{
-                  backgroundColor: 'black',
-                  borderRadius: keySize,
-                  height: keySize / 4,
-                  width: keySize / 4,
-                }}
-              />
-            ))
-          : null}
+        Enter PIN
+      </Text>
+
+      <Text
+        style={{
+          fontSize: 16,
+          color: '#999',
+          marginBottom: 40,
+          textAlign: 'center',
+        }}
+      >
+        {label}
+      </Text>
+
+      {/* PIN dots indicator */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 50,
+          gap: 15,
+        }}
+      >
+        {Array.from({ length: pinLength }).map((_, index) => (
+          <View
+            key={index}
+            style={{
+              width: 16,
+              height: 16,
+              borderRadius: 8,
+              backgroundColor: index < code.length ? '#007BFF' : '#333',
+              borderWidth: 2,
+              borderColor: index < code.length ? '#007BFF' : '#555',
+            }}
+          />
+        ))}
       </View>
+
+      {/* Number pad */}
       <FlatList
-        columnWrapperStyle={{ gap: 20 }}
-        contentContainerStyle={{ gap: 20 }}
+        columnWrapperStyle={{ gap: 15, justifyContent: 'center' }}
+        contentContainerStyle={{ gap: 15 }}
         data={keys}
         keyExtractor={(_, index) => index.toString()}
         numColumns={3}
-        renderItem={item => (
-          <TouchableOpacity onPress={() => handlePress(item.item as string)}>
-            <View
-              style={{
-                alignItems: 'center',
-                borderColor: code.length < pinLength ? 'black' : 'lightgray',
-                borderRadius: keySize,
-                borderWidth: ['', 'del'].includes(item.item as string) ? 0 : 1,
-                height: keySize,
-                justifyContent: 'center',
-                width: keySize,
-              }}
-            >
-              {item.item === 'del' ? (
-                <Text style={{ color: 'black', fontSize: keyTextSize }}>
-                  {'<'}
-                </Text>
-              ) : (
-                <Text
-                  style={{
-                    color: code.length < pinLength ? 'black' : 'lightgray',
-                    fontSize: keyTextSize,
-                  }}
-                >
-                  {item.item}
-                </Text>
-              )}
-            </View>
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => handlePress(item as string)}
+            style={{
+              width: keySize,
+              height: keySize,
+              borderRadius: keySize / 2,
+              backgroundColor: item === '' ? 'transparent' : '#1a1a1a',
+              borderWidth: item === '' ? 0 : 1,
+              borderColor: '#333',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: item === '' ? 0 : 1,
+            }}
+            disabled={item === ''}
+          >
+            {item === 'del' ? (
+              <Text
+                style={{
+                  color: '#FFF',
+                  fontSize: keyTextSize,
+                  fontWeight: 'bold',
+                }}
+              >
+                ⌫
+              </Text>
+            ) : item !== '' ? (
+              <Text
+                style={{
+                  color: '#FFF',
+                  fontSize: keyTextSize,
+                  fontWeight: '600',
+                }}
+              >
+                {item}
+              </Text>
+            ) : null}
           </TouchableOpacity>
         )}
         scrollEnabled={false}
-        style={{ backgroundColor: 'white', flexGrow: 0 }}
+        style={{ flexGrow: 0 }}
       />
-
-      {typeof code !== 'undefined' && code.length === pinLength ? (
-        <View style={styles.section}>
-          <PortalButton title={label} onPress={onSubmit} />
-        </View>
-      ) : null}
     </View>
   );
 };

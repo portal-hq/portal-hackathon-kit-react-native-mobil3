@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { styles } from '../../../style/stylesheet';
+import LinearGradient from 'react-native-linear-gradient';
 import PinPad from './pin-pad';
 
 interface PinModalProps {
@@ -25,40 +26,53 @@ const PinModal: FC<PinModalProps> = ({
   setPin,
   setVisible,
 }) => {
+  
   return (
     <View style={styles.modalContainer}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      <LinearGradient
+        colors={['#000', '#1a1a1a', '#2a2a2a']}
         style={styles.container}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <Pressable
-            onPress={() => setVisible(false)}
-            style={[
-              styles.section,
-              {
-                alignItems: 'flex-end',
-                alignContent: 'flex-end',
-                flexDirection: 'row',
-                flexGrow: 0,
-                justifyContent: 'flex-end',
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                zIndex: 101,
-              },
-            ]}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}
+        >
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: 'center',
+              paddingHorizontal: 20,
+              paddingVertical: 40,
+            }}
           >
-            <Text style={{ fontSize: 24 }}>x</Text>
-          </Pressable>
-          <PinPad
-            label={label}
-            onSubmit={onSubmit}
-            pinLength={pinLength}
-            setPin={setPin}
-          />
-        </ScrollView>
-      </KeyboardAvoidingView>
+            <Pressable
+              onPress={() => setVisible(false)}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                zIndex: 101,
+                backgroundColor: '#333',
+                borderRadius: 20,
+                width: 40,
+                height: 40,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text style={{ fontSize: 18, color: '#FFF', fontWeight: 'bold' }}>
+                ×
+              </Text>
+            </Pressable>
+            <PinPad
+              label={label}
+              onSubmit={onSubmit}
+              pinLength={pinLength}
+              setPin={setPin}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </LinearGradient>
     </View>
   );
 };

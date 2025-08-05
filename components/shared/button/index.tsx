@@ -11,11 +11,11 @@ interface ButtonProps {
 }
 
 const PortalButton: FC<ButtonProps> = ({
-  color = 'black',
+  color = '#007BFF', // Blue default
   disabled = false,
   onPress,
   style = {},
-  textColor = 'white',
+  textColor = '#FFF', // White text
   title,
 }) => {
   return (

@@ -1,41 +1,41 @@
-import { FC, useState } from 'react'
-import { View } from 'react-native'
-import PortalButton from '../../shared/button'
-import PinModal from '../../shared/pin-modal'
-import { styles } from '../../../style/stylesheet'
-import { BackupMethods, usePortal } from '@portal-hq/core'
-import React from 'react'
+import { FC, useState } from 'react';
+import { View } from 'react-native';
+import PortalButton from '../../shared/button';
+import PinModal from '../../shared/pin-modal';
+import { styles } from '../../../style/stylesheet';
+import { BackupMethods, usePortal } from '@portal-hq/core';
+import React from 'react';
 
 const BackupWallet: FC = () => {
-  const portal = usePortal()
+  const portal = usePortal();
 
-  const [backupDone, setBackupDone] = useState<boolean>(false)
-  const [isBackingUp, setIsBackingUp] = useState<boolean>(false)
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [pin, setPin] = useState<string>('')
+  const [backupDone, setBackupDone] = useState<boolean>(false);
+  const [isBackingUp, setIsBackingUp] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [pin, setPin] = useState<string>('');
 
   const backupWallet = async () => {
-    console.log(`Pin: ${pin}`)
+    console.log(`Pin: ${pin}`);
     if (pin && pin.length === 4) {
-      setIsBackingUp(true)
-      setIsModalVisible(false)
+      setIsBackingUp(true);
+      setIsModalVisible(false);
       await portal?.backupWallet(BackupMethods.Password, () => {}, {
         passwordStorage: {
           password: pin,
         },
-      })
-      setBackupDone(true)
-      setIsBackingUp(false)
+      });
+      setBackupDone(true);
+      setIsBackingUp(false);
 
       setTimeout(() => {
-        setBackupDone(false)
-      }, 2500)
+        setBackupDone(false);
+      }, 2500);
     }
-  }
+  };
 
   return (
     <>
-      <View style={styles.section}>
+      <View style={[styles.section, { paddingBottom: 50 }]}>
         <PortalButton
           style={{
             backgroundColor: backupDone
@@ -52,7 +52,7 @@ const BackupWallet: FC = () => {
               : 'Backup Wallet'
           }
           onPress={() => {
-            setIsModalVisible(true)
+            setIsModalVisible(true);
           }}
         />
       </View>
@@ -67,7 +67,7 @@ const BackupWallet: FC = () => {
         />
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default BackupWallet
+export default BackupWallet;

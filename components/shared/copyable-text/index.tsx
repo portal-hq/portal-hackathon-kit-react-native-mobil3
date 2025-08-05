@@ -58,7 +58,7 @@ const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#333', // Dark bg
     borderRadius: 4,
     paddingVertical: 8,
     paddingHorizontal: 12,
@@ -67,18 +67,18 @@ const localStyles = StyleSheet.create({
   text: {
     flex: 1,
     fontSize: 14,
-    color: '#333',
+    color: '#FFF', // White text
     paddingRight: 8,
   },
   copyButton: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#555', // Darker gray button
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 4,
   },
   copyButtonText: {
     fontSize: 12,
-    color: '#555',
+    color: '#FFF', // White button text
     fontWeight: 'bold',
   },
 });

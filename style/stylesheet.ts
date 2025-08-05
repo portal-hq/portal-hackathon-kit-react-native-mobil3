@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000', // Dark background
   },
   formControl: {
     alignItems: 'center',
@@ -19,10 +20,11 @@ export const styles = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: 5,
     textTransform: 'uppercase',
+    color: '#FFF', // White text for labels
   },
   modalContainer: {
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0,0.95)', // Semi-transparent dark modal bg
     flex: 1,
     height: '100%',
     justifyContent: 'center',
@@ -34,21 +36,22 @@ export const styles = StyleSheet.create({
   },
   safeArea: {
     paddingHorizontal: 20,
+    backgroundColor: '#000', // Dark safe area
   },
   screenTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#FFF', // White title
   },
   section: {
     marginTop: 10,
     width: '100%',
   },
   textInput: {
-    borderColor: 'black',
+    backgroundColor: '#333',
     borderRadius: 5,
-    borderWidth: 1,
+    color: '#FFF',
     padding: 10,
-    width: '100%',
   },
   toggle: {
     alignItems: 'center',
@@ -56,14 +59,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   toggleItem: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#333', // Dark gray toggle
     alignItems: 'center',
     borderRadius: 5,
     flex: 1,
     padding: 10,
   },
   toggleItemActive: {
-    backgroundColor: 'black',
+    backgroundColor: '#007BFF', // Blue active, like in docs
   },
   toggleItemFirst: {
     marginRight: 5,
@@ -72,9 +75,9 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
   },
   toggleItemText: {
-    color: 'black',
+    color: '#FFF', // White text
   },
   toggleItemTextActive: {
-    color: 'white',
+    color: '#FFF', // White in active
   },
 });

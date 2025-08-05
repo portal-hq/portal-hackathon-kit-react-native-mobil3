@@ -49,7 +49,7 @@ function App() {
                 },
               ]}
             >
-              <StatusBar barStyle="dark-content" />
+              <StatusBar barStyle="light-content" />
               <View style={styles.container}>
                 {screen === Screen.Home && (
                   <Home setAddress={setAddress} setScreen={setScreen} />
